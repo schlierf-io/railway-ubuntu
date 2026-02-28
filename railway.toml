@@ -1,0 +1,6 @@
+[deploy]
+startCommand = "/usr/local/bin/ssh-user-config.sh"
+
+[[volumes]]
+mount = "/data"
+sizeGB = 100
