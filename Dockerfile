@@ -5,7 +5,7 @@ RUN userdel -r ubuntu 2>/dev/null || true
 
 RUN apt-get update && \
     apt-get install -y unminimize && \
-    yes | /usr/local/sbin/unminimize
+    yes | unminimize
 
 # Install system packages
 RUN apt-get update && apt-get install -y \
