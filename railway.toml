@@ -1,5 +1,5 @@
 [deploy]
-startCommand = "/usr/local/bin/ssh-user-config.sh"
+startCommand = "/usr/local/bin/entrypoint.sh"
 
 [[volumes]]
 mount = "/data"
