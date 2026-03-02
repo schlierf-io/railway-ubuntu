@@ -3,6 +3,9 @@ FROM ubuntu:25.04
 # Remove default ubuntu user to free up UID/GID 1000
 RUN userdel -r ubuntu 2>/dev/null || true
 
+# Unminimize the image (restores man pages, docs, locales, etc.)
+RUN yes | unminimize
+
 # Install system packages
 RUN apt-get update && apt-get install -y \
     openssh-server sudo supervisor cron \
