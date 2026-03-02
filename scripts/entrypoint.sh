@@ -47,6 +47,9 @@ else
     echo "No authorized keys set — password authentication remains enabled"
 fi
 
-# Start SSH server
-echo "Starting SSH server..."
-exec /usr/sbin/sshd -D
+# Create supervisor log directory
+mkdir -p /var/log/supervisor
+
+# Start all services via supervisord
+echo "Starting services via supervisord..."
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
