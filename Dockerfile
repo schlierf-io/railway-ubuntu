@@ -35,7 +35,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Create volume mount point
 RUN mkdir -p /data
-VOLUME /data
 
 EXPOSE 22
 
