@@ -1,2 +1,13 @@
+[build]
+builder = "dockerfile"
+
+[[volumes]]
+mount = "/data"
+sizeGB = 100
+
 [deploy]
 startCommand = "/usr/local/bin/entrypoint.sh"
+
+[variables]
+OPENCLAW_STATE_DIR = "/data/.openclaw"
+OPENCLAW_WORKSPACE_DIR = "/data/workspace"
