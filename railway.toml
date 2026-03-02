@@ -1,6 +1,2 @@
 [deploy]
 startCommand = "/usr/local/bin/entrypoint.sh"
-
-[[volumes]]
-mount = "/data"
-sizeGB = 100
