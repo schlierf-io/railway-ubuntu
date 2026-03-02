@@ -11,7 +11,7 @@ RUN apt-get update && \
 RUN apt-get update && apt-get install -y \
     openssh-server sudo supervisor cron \
     iproute2 iputils-ping nmap netcat-openbsd traceroute dnsutils mtr telnet \
-    git curl wget vim htop tmux build-essential \
+    git curl wget vim htop tmux build-essential xauth \
     python3 python3-pip python3-venv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -35,6 +35,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Create volume mount point
 RUN mkdir -p /data
+VOLUME /data
 
 EXPOSE 22
 
