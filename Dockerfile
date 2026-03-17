@@ -25,10 +25,14 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
 # Install openclaw, Claude Code CLI, and global tools
 RUN npm i -g openclaw clawhub mcporter @steipete/summarize @google/gemini-cli pnpm @anthropic-ai/claude-code
 
-# Install Homebrew
+# Install Homebrew (must not run as root)
 RUN useradd -m -s /bin/bash linuxbrew \
-    && NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-    && echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /etc/profile.d/homebrew.sh \
+    && mkdir -p /home/linuxbrew/.linuxbrew \
+    && chown -R linuxbrew:linuxbrew /home/linuxbrew
+USER linuxbrew
+RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+USER root
+RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /etc/profile.d/homebrew.sh \
     && chmod +x /etc/profile.d/homebrew.sh
 
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
