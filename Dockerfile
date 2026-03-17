@@ -22,8 +22,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install openclaw and global tools
-RUN npm i -g openclaw clawhub mcporter @steipete/summarize @google/gemini-cli pnpm
+# Install openclaw, Claude Code CLI, and global tools
+RUN npm i -g openclaw clawhub mcporter @steipete/summarize @google/gemini-cli pnpm @anthropic-ai/claude-code
 
 # Install Homebrew
 RUN useradd -m -s /bin/bash linuxbrew \
