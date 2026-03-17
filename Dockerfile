@@ -26,6 +26,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
 RUN npm i -g openclaw clawhub mcporter @steipete/summarize @google/gemini-cli pnpm @anthropic-ai/claude-code \
     && which openclaw && openclaw --version
 
+# Install Tailscale CLI
+RUN curl -fsSL https://tailscale.com/install.sh | sh
+
 # Install Homebrew (must not run as root)
 RUN useradd -m -s /bin/bash linuxbrew \
     && mkdir -p /home/linuxbrew/.linuxbrew \
