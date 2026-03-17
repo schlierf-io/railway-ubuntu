@@ -36,7 +36,8 @@ RUN useradd -m -s /bin/bash linuxbrew \
 USER linuxbrew
 RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 USER root
-RUN chmod -R o+rx /home/linuxbrew/.linuxbrew \
+RUN chmod o+x /home/linuxbrew \
+    && chmod -R o+rx /home/linuxbrew/.linuxbrew \
     && echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /etc/profile.d/homebrew.sh \
     && chmod +x /etc/profile.d/homebrew.sh
 
