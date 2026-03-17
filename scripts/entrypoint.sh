@@ -47,6 +47,9 @@ else
     echo "No authorized keys set — password authentication remains enabled"
 fi
 
+# Ensure SSH host keys exist
+ssh-keygen -A
+
 # Create supervisor log directory
 mkdir -p /var/log/supervisor
 
