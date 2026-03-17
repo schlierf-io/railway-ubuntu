@@ -135,10 +135,6 @@
       "mode": "token",
       "token": "${OPENCLAW_GATEWAY_TOKEN}"
     },
-    "tailscale": {
-      "mode": "off",
-      "resetOnExit": false
-    },
     "nodes": {
       "denyCommands": [
         "camera.snap",
