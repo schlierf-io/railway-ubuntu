@@ -88,9 +88,9 @@ if [ ! -f "$OPENCLAW_DIR/openclaw.json" ]; then
     chown -R "$SSH_USERNAME:$SSH_USERNAME" "$OPENCLAW_DIR"
     echo "Openclaw configuration created"
 
-    # Install openclaw-gmail plugin
-    echo "Installing openclaw-gmail plugin..."
-    su - "$SSH_USERNAME" -c "cd '$OPENCLAW_DIR' && npm init -y 2>/dev/null; npm install @mcinteerj/openclaw-gmail" || echo "Warning: openclaw-gmail install failed, can be installed manually"
+    # Install openclaw-gmail plugin in background (non-blocking)
+    echo "Installing openclaw-gmail plugin in background..."
+    (su - "$SSH_USERNAME" -c "cd '$OPENCLAW_DIR' && npm init -y 2>/dev/null; npm install --timeout=60000 @mcinteerj/openclaw-gmail" && echo "openclaw-gmail installed successfully" || echo "Warning: openclaw-gmail install failed, install manually with: npm install @mcinteerj/openclaw-gmail") &
 else
     echo "Openclaw configuration already exists, skipping setup"
 fi
