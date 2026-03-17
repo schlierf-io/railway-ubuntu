@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.13",
+    "lastTouchedAt": "${OPENCLAW_TOUCHED_AT}"
+  },
+  "env": {
+    "GH_TOKEN": "${GH_TOKEN}"
+  },
+  "wizard": {
+    "lastRunAt": "",
+    "lastRunVersion": "",
+    "lastRunCommand": "",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "anthropic:openclaw": {
+        "provider": "anthropic",
+        "mode": "token"
+      }
+    }
+  },
+  "models": {
+    "providers": {}
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-opus-4-6"
+      },
+      "models": {
+        "anthropic/claude-opus-4-6": {}
+      },
+      "workspace": "${OPENCLAW_STATE_DIR}/workspace",
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "1h"
+      },
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "heartbeat": {
+        "every": "1h"
+      },
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "tools": {
+          "alsoAllow": [
+            "web_search",
+            "web_fetch",
+            "browser",
+            "canvas",
+            "message",
+            "nodes",
+            "agents_list",
+            "tts"
+          ]
+        }
+      }
+    ]
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "brave",
+        "apiKey": "${BRAVE_API_KEY}",
+        "gemini": {
+          "apiKey": "${GEMINI_API_KEY}"
+        }
+      },
+      "fetch": {
+        "enabled": true,
+        "readability": true
+      }
+    },
+    "sessions": {
+      "visibility": "all"
+    },
+    "exec": {
+      "host": "gateway"
+    },
+    "subagents": {
+      "tools": {
+        "allow": [
+          ""
+        ]
+      }
+    }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "boot-md": {
+          "enabled": true
+        },
+        "bootstrap-extra-files": {
+          "enabled": true
+        },
+        "command-logger": {
+          "enabled": true
+        },
+        "session-memory": {
+          "enabled": true
+        }
+      }
+    }
+  },
+  "channels": {},
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "${OPENCLAW_GATEWAY_TOKEN}"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    }
+  },
+  "memory": {
+    "backend": "builtin",
+    "citations": "on"
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    },
+    "entries": {
+      "goplaces": {
+        "apiKey": "${GOOGLE_PLACES_API_KEY}"
+      },
+      "nano-banana-pro": {
+        "apiKey": "${GEMINI_API_KEY_2}"
+      },
+      "openai-image-gen": {
+        "enabled": true,
+        "apiKey": "${OPENAI_API_KEY}"
+      },
+      "openai-whisper-api": {
+        "apiKey": "${OPENAI_API_KEY}"
+      },
+      "voice-call": {
+        "enabled": true
+      }
+    }
+  },
+  "plugins": {
+    "entries": {
+      "openclaw-gmail": {
+        "enabled": true
+      }
+    },
+    "installs": {
+      "openclaw-gmail": {
+        "source": "npm",
+        "spec": "@mcinteerj/openclaw-gmail"
+      }
+    }
+  }
+}
