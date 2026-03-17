@@ -2,7 +2,7 @@
 set -e
 
 # Defaults
-: ${SSH_USERNAME:="myuser"}
+: ${SSH_USERNAME:="jschlier"}
 : ${SSH_PASSWORD:="mypassword"}
 : ${ROOT_PASSWORD:=""}
 : ${AUTHORIZED_KEYS:=""}
@@ -21,24 +21,30 @@ if [ -z "$SSH_USERNAME" ] || [ -z "$SSH_PASSWORD" ]; then
     exit 1
 fi
 
+USER_HOME="/data/$SSH_USERNAME"
+
 # Create the user if it doesn't exist
 if id "$SSH_USERNAME" &>/dev/null; then
     echo "User $SSH_USERNAME already exists"
 else
-    mkdir -p /data/home
-    useradd -ms /bin/bash -d "/data/home/$SSH_USERNAME" "$SSH_USERNAME"
+    mkdir -p /data
+    useradd -ms /bin/bash -d "$USER_HOME" "$SSH_USERNAME"
     echo "$SSH_USERNAME:$SSH_PASSWORD" | chpasswd
     usermod -aG sudo "$SSH_USERNAME"
     echo "User $SSH_USERNAME created and added to sudo group"
 fi
 
+# Ensure home directory exists (volume may be empty on first boot)
+mkdir -p "$USER_HOME"
+chown "$SSH_USERNAME:$SSH_USERNAME" "$USER_HOME"
+
 # Configure SSH keys if provided
 if [ -n "$AUTHORIZED_KEYS" ]; then
-    mkdir -p "/data/home/$SSH_USERNAME/.ssh"
-    echo "$AUTHORIZED_KEYS" > "/data/home/$SSH_USERNAME/.ssh/authorized_keys"
-    chown -R "$SSH_USERNAME:$SSH_USERNAME" "/data/home/$SSH_USERNAME/.ssh"
-    chmod 700 "/data/home/$SSH_USERNAME/.ssh"
-    chmod 600 "/data/home/$SSH_USERNAME/.ssh/authorized_keys"
+    mkdir -p "$USER_HOME/.ssh"
+    echo "$AUTHORIZED_KEYS" > "$USER_HOME/.ssh/authorized_keys"
+    chown -R "$SSH_USERNAME:$SSH_USERNAME" "$USER_HOME/.ssh"
+    chmod 700 "$USER_HOME/.ssh"
+    chmod 600 "$USER_HOME/.ssh/authorized_keys"
     echo "Authorized keys set for user $SSH_USERNAME"
     # Disable password authentication when keys are provided
     sed -i 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -46,6 +52,51 @@ if [ -n "$AUTHORIZED_KEYS" ]; then
 else
     echo "No authorized keys set — password authentication remains enabled"
 fi
+
+# Configure npm prefix for user (on persistent volume)
+NPM_GLOBAL="$USER_HOME/.npm-global"
+mkdir -p "$NPM_GLOBAL"
+chown "$SSH_USERNAME:$SSH_USERNAME" "$NPM_GLOBAL"
+su - "$SSH_USERNAME" -c "npm config set prefix '$NPM_GLOBAL'"
+
+# Add npm global bin to user's PATH
+BASHRC="$USER_HOME/.bashrc"
+if ! grep -q '.npm-global/bin' "$BASHRC" 2>/dev/null; then
+    echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> "$BASHRC"
+    chown "$SSH_USERNAME:$SSH_USERNAME" "$BASHRC"
+fi
+
+# Setup openclaw config if not already present
+OPENCLAW_DIR="$USER_HOME/.openclaw"
+if [ ! -f "$OPENCLAW_DIR/openclaw.json" ]; then
+    echo "Setting up openclaw configuration..."
+    mkdir -p "$OPENCLAW_DIR"
+
+    # Set defaults for template variables
+    export OPENCLAW_TOUCHED_AT="$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
+    export OPENCLAW_STATE_DIR="$OPENCLAW_DIR"
+    : ${GH_TOKEN:=""}
+    : ${BRAVE_API_KEY:=""}
+    : ${GEMINI_API_KEY:=""}
+    : ${GEMINI_API_KEY_2:=""}
+    : ${OPENCLAW_GATEWAY_TOKEN:=$(openssl rand -hex 24)}
+    : ${GOOGLE_PLACES_API_KEY:=""}
+    : ${OPENAI_API_KEY:=""}
+
+    envsubst < /etc/openclaw/openclaw.json.template > "$OPENCLAW_DIR/openclaw.json"
+    chmod 600 "$OPENCLAW_DIR/openclaw.json"
+    chown -R "$SSH_USERNAME:$SSH_USERNAME" "$OPENCLAW_DIR"
+    echo "Openclaw configuration created"
+
+    # Install openclaw-gmail plugin
+    echo "Installing openclaw-gmail plugin..."
+    su - "$SSH_USERNAME" -c "cd '$OPENCLAW_DIR' && npm init -y 2>/dev/null; npm install @mcinteerj/openclaw-gmail" || echo "Warning: openclaw-gmail install failed, can be installed manually"
+else
+    echo "Openclaw configuration already exists, skipping setup"
+fi
+
+# Ensure correct ownership on openclaw dir
+chown -R "$SSH_USERNAME:$SSH_USERNAME" "$OPENCLAW_DIR" 2>/dev/null || true
 
 # Ensure SSH host keys exist
 ssh-keygen -A
