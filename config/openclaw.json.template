@@ -179,16 +179,7 @@
     }
   },
   "plugins": {
-    "entries": {
-      "openclaw-gmail": {
-        "enabled": true
-      }
-    },
-    "installs": {
-      "openclaw-gmail": {
-        "source": "npm",
-        "spec": "@mcinteerj/openclaw-gmail"
-      }
-    }
+    "entries": {},
+    "installs": {}
   }
 }
