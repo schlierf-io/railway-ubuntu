@@ -66,31 +66,6 @@ if ! grep -q '.npm-global/bin' "$BASHRC" 2>/dev/null; then
     chown "$SSH_USERNAME:$SSH_USERNAME" "$BASHRC"
 fi
 
-# Setup openclaw config if not already present
-OPENCLAW_DIR="$USER_HOME/.openclaw"
-if [ ! -f "$OPENCLAW_DIR/openclaw.json" ]; then
-    echo "Setting up openclaw configuration..."
-    mkdir -p "$OPENCLAW_DIR"
-
-    # Set defaults for template variables
-    export OPENCLAW_TOUCHED_AT="$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
-    export OPENCLAW_STATE_DIR="$OPENCLAW_DIR"
-    : ${GH_TOKEN:=""}
-    : ${BRAVE_API_KEY:=""}
-    : ${GEMINI_API_KEY:=""}
-    : ${GEMINI_API_KEY_2:=""}
-    : ${OPENCLAW_GATEWAY_TOKEN:=$(openssl rand -hex 24)}
-    : ${GOOGLE_PLACES_API_KEY:=""}
-    : ${OPENAI_API_KEY:=""}
-
-    envsubst < /etc/openclaw/openclaw.json.template > "$OPENCLAW_DIR/openclaw.json"
-    chmod 600 "$OPENCLAW_DIR/openclaw.json"
-    chown -R "$SSH_USERNAME:$SSH_USERNAME" "$OPENCLAW_DIR"
-    echo "Openclaw configuration created"
-else
-    echo "Openclaw configuration already exists, skipping setup"
-fi
-
 # Ensure correct ownership on openclaw dir
 chown -R "$SSH_USERNAME:$SSH_USERNAME" "$OPENCLAW_DIR" 2>/dev/null || true
 
