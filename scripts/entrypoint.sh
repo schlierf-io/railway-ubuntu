@@ -66,9 +66,6 @@ if ! grep -q '.npm-global/bin' "$BASHRC" 2>/dev/null; then
     chown "$SSH_USERNAME:$SSH_USERNAME" "$BASHRC"
 fi
 
-# Ensure correct ownership on openclaw dir
-chown -R "$SSH_USERNAME:$SSH_USERNAME" "$OPENCLAW_DIR" 2>/dev/null || true
-
 # Ensure SSH host keys exist
 ssh-keygen -A
 

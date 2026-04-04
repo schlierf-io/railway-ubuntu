@@ -3,7 +3,3 @@ builder = "dockerfile"
 
 [deploy]
 startCommand = "/usr/local/bin/entrypoint.sh"
-
-[variables]
-OPENCLAW_STATE_DIR = "/data/jschlier/.openclaw"
-OPENCLAW_WORKSPACE_DIR = "/data/jschlier/.openclaw/workspace"

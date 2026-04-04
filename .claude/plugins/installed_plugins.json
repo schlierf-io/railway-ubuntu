@@ -1,0 +1,101 @@
+{
+  "version": 2,
+  "plugins": {
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "local",
+        "installPath": "/home/jschlier/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7",
+        "version": "5.0.7",
+        "installedAt": "2026-02-06T19:03:37.856Z",
+        "lastUpdated": "2026-04-04T20:50:09.071Z",
+        "gitCommitSha": "a98c5dfc9de0df5318f4980d91d24780a566ee60",
+        "projectPath": "/home/jschlier/projects/azubi-boost"
+      }
+    ],
+    "claude-mem@thedotmack": [
+      {
+        "scope": "local",
+        "installPath": "/home/jschlier/.claude/plugins/cache/thedotmack/claude-mem/10.0.7",
+        "version": "10.0.7",
+        "installedAt": "2026-02-15T07:26:34.269Z",
+        "lastUpdated": "2026-04-04T20:50:09.071Z",
+        "gitCommitSha": "685d54f2cb898153bcfea1da5185046a59ff1731",
+        "projectPath": "/home/jschlier/projects/azubi-boost"
+      }
+    ],
+    "typescript-lsp@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/home/jschlier/projects/azubi-boost",
+        "installPath": "/home/jschlier/.claude/plugins/cache/claude-plugins-official/typescript-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-15T11:34:34.207Z",
+        "lastUpdated": "2026-04-04T20:50:09.071Z",
+        "gitCommitSha": "2cd88e7947b7382e045666abee790c7f55f669f3"
+      }
+    ],
+    "code-simplifier@claude-plugins-official": [
+      {
+        "scope": "local",
+        "projectPath": "/home/jschlier/projects/azubi-boost",
+        "installPath": "/home/jschlier/.claude/plugins/cache/claude-plugins-official/code-simplifier/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-02-16T06:17:40.717Z",
+        "lastUpdated": "2026-04-01T15:15:22.369Z",
+        "gitCommitSha": "2cd88e7947b7382e045666abee790c7f55f669f3"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "local",
+        "projectPath": "/home/jschlier/projects/azubi-boost",
+        "installPath": "/home/jschlier/.claude/plugins/cache/claude-plugins-official/frontend-design/551e40ddfaf9",
+        "version": "551e40ddfaf9",
+        "installedAt": "2026-02-16T06:17:40.717Z",
+        "lastUpdated": "2026-04-01T15:15:22.369Z",
+        "gitCommitSha": "2cd88e7947b7382e045666abee790c7f55f669f3"
+      }
+    ],
+    "superpowers@superpowers-dev": [
+      {
+        "scope": "project",
+        "projectPath": "/home/jschlier/projects/payload",
+        "installPath": "/home/jschlier/.claude/plugins/cache/superpowers-dev/superpowers/4.3.0",
+        "version": "4.3.0",
+        "installedAt": "2026-02-17T10:25:12.779Z",
+        "lastUpdated": "2026-02-17T10:25:12.779Z",
+        "gitCommitSha": "e16d611eee14ac4c3253b4bf4c55a98d905c2e64"
+      }
+    ],
+    "prompt-improver@severity1-marketplace": [
+      {
+        "scope": "user",
+        "installPath": "/home/jschlier/.claude/plugins/cache/severity1-marketplace/prompt-improver/0.5.1",
+        "version": "0.5.1",
+        "installedAt": "2026-02-19T20:59:42.387Z",
+        "lastUpdated": "2026-02-19T20:59:42.387Z",
+        "gitCommitSha": "51bcdebfabffbd03ed35dfda629246d23ea60067"
+      }
+    ],
+    "github@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/home/jschlier/.claude/plugins/cache/claude-plugins-official/github/551e40ddfaf9",
+        "version": "551e40ddfaf9",
+        "installedAt": "2026-03-17T17:12:28.119Z",
+        "lastUpdated": "2026-03-31T18:18:38.217Z",
+        "gitCommitSha": "78497c524da3762865d47377357c30af5b50d522"
+      }
+    ],
+    "browse@browserbase": [
+      {
+        "scope": "user",
+        "installPath": "/home/jschlier/.claude/plugins/cache/browserbase/browse/0.0.1",
+        "version": "0.0.1",
+        "installedAt": "2026-04-01T13:50:40.627Z",
+        "lastUpdated": "2026-04-01T13:50:40.627Z",
+        "gitCommitSha": "4747945fa99d04f4a69aa074d60ca0ec207fe14b"
+      }
+    ]
+  }
+}

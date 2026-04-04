@@ -25,6 +25,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Install pnpm and Claude Code CLI
+RUN npm install -g pnpm @anthropic-ai/claude-code
+
 # Install Homebrew (must not run as root)
 RUN useradd -m -s /bin/bash linuxbrew \
     && mkdir -p /home/linuxbrew/.linuxbrew \

@@ -1,0 +1,24 @@
+{
+  "env": {
+    "SUDO_ASKPASS": "/home/jschlier/.local/bin/sudo-askpass",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "model": "opus[1m]",
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
+    "claude-mem@thedotmack": true,
+    "prompt-improver@severity1-marketplace": true,
+    "github@claude-plugins-official": true,
+    "browse@browserbase": true
+  },
+  "extraKnownMarketplaces": {
+    "browserbase": {
+      "source": {
+        "source": "github",
+        "repo": "browserbase/skills"
+      }
+    }
+  },
+  "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": true
+}

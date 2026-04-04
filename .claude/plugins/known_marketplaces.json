@@ -1,0 +1,50 @@
+{
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/home/jschlier/.claude/plugins/marketplaces/claude-plugins-official",
+    "lastUpdated": "2026-04-04T23:20:09.260Z"
+  },
+  "superpowers-marketplace": {
+    "source": {
+      "source": "github",
+      "repo": "obra/superpowers-marketplace"
+    },
+    "installLocation": "/home/jschlier/.claude/plugins/marketplaces/superpowers-marketplace",
+    "lastUpdated": "2026-02-06T19:03:09.364Z"
+  },
+  "thedotmack": {
+    "source": {
+      "source": "github",
+      "repo": "thedotmack/claude-mem"
+    },
+    "installLocation": "/home/jschlier/.claude/plugins/marketplaces/thedotmack",
+    "lastUpdated": "2026-02-19T20:55:05.612Z"
+  },
+  "superpowers-dev": {
+    "source": {
+      "source": "github",
+      "repo": "obra/superpowers"
+    },
+    "installLocation": "/home/jschlier/.claude/plugins/marketplaces/superpowers-dev",
+    "lastUpdated": "2026-02-17T10:25:12.733Z"
+  },
+  "severity1-marketplace": {
+    "source": {
+      "source": "github",
+      "repo": "severity1/severity1-marketplace"
+    },
+    "installLocation": "/home/jschlier/.claude/plugins/marketplaces/severity1-marketplace",
+    "lastUpdated": "2026-02-19T20:58:45.490Z"
+  },
+  "browserbase": {
+    "source": {
+      "source": "github",
+      "repo": "browserbase/skills"
+    },
+    "installLocation": "/home/jschlier/.claude/plugins/marketplaces/browserbase",
+    "lastUpdated": "2026-04-01T13:50:24.404Z"
+  }
+}
