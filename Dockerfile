@@ -14,7 +14,7 @@ RUN apt-get update && \
 RUN apt-get update && apt-get install -y \
     openssh-server sudo supervisor cron gettext-base \
     iproute2 iputils-ping nmap netcat-openbsd traceroute dnsutils mtr telnet \
-    git curl wget vim htop tmux build-essential xauth \
+    git curl wget vim htop tmux build-essential xauth chromium-browser ssh-askpass \
     python3 python3-pip python3-venv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -25,8 +25,26 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pnpm and Claude Code CLI
-RUN npm install -g pnpm @anthropic-ai/claude-code
+# Install pnpm, Claude Code CLI, and Gemini CLI
+RUN npm install -g pnpm @anthropic-ai/claude-code @google/gemini-cli
+
+# Install opencode
+RUN curl -fsSL https://raw.githubusercontent.com/opencode-ai/opencode/refs/heads/main/install | bash
+
+# Install GitHub CLI
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && apt-get update \
+    && apt-get install -y gh \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Rustup (available to all users via shared RUSTUP_HOME/CARGO_HOME)
+ENV RUSTUP_HOME=/usr/local/rustup
+ENV CARGO_HOME=/usr/local/cargo
+ENV PATH="/usr/local/cargo/bin:${PATH}"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --no-modify-path
 
 # Install Homebrew (must not run as root)
 RUN useradd -m -s /bin/bash linuxbrew \
@@ -43,6 +61,9 @@ RUN chmod o+x /home/linuxbrew \
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 ENV NODE_PATH=/data
 ENV TERM=xterm-256color
+ENV SSH_ASKPASS=/usr/bin/ssh-askpass
+ENV SSH_ASKPASS_REQUIRE=prefer
+ENV COLORTERM=truecolor
 
 # Setup SSH
 RUN mkdir -p /run/sshd && chmod 755 /run/sshd
