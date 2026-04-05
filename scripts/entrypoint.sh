@@ -3,7 +3,6 @@ set -e
 
 # Defaults
 : ${SSH_USERNAME:="jschlier"}
-: ${SSH_PASSWORD:="mypassword"}
 : ${ROOT_PASSWORD:=""}
 : ${AUTHORIZED_KEYS:=""}
 
@@ -16,8 +15,13 @@ else
 fi
 
 # Validate required variables
-if [ -z "$SSH_USERNAME" ] || [ -z "$SSH_PASSWORD" ]; then
-    echo "Error: SSH_USERNAME and SSH_PASSWORD must be set." >&2
+if [ -z "$SSH_USERNAME" ]; then
+    echo "Error: SSH_USERNAME must be set." >&2
+    exit 1
+fi
+
+if [ -z "$AUTHORIZED_KEYS" ]; then
+    echo "Error: AUTHORIZED_KEYS must be set (password authentication is disabled)." >&2
     exit 1
 fi
 
@@ -29,7 +33,6 @@ if id "$SSH_USERNAME" &>/dev/null; then
 else
     mkdir -p /data
     useradd -ms /bin/bash -d "$USER_HOME" "$SSH_USERNAME"
-    echo "$SSH_USERNAME:$SSH_PASSWORD" | chpasswd
     usermod -aG sudo "$SSH_USERNAME"
     echo "User $SSH_USERNAME created and added to sudo group"
 fi
@@ -38,20 +41,13 @@ fi
 mkdir -p "$USER_HOME"
 chown "$SSH_USERNAME:$SSH_USERNAME" "$USER_HOME"
 
-# Configure SSH keys if provided
-if [ -n "$AUTHORIZED_KEYS" ]; then
-    mkdir -p "$USER_HOME/.ssh"
-    echo "$AUTHORIZED_KEYS" > "$USER_HOME/.ssh/authorized_keys"
-    chown -R "$SSH_USERNAME:$SSH_USERNAME" "$USER_HOME/.ssh"
-    chmod 700 "$USER_HOME/.ssh"
-    chmod 600 "$USER_HOME/.ssh/authorized_keys"
-    echo "Authorized keys set for user $SSH_USERNAME"
-    # Disable password authentication when keys are provided
-    sed -i 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
-    echo "Password authentication disabled (SSH keys configured)"
-else
-    echo "No authorized keys set — password authentication remains enabled"
-fi
+# Configure SSH authorized keys
+mkdir -p "$USER_HOME/.ssh"
+echo "$AUTHORIZED_KEYS" > "$USER_HOME/.ssh/authorized_keys"
+chown -R "$SSH_USERNAME:$SSH_USERNAME" "$USER_HOME/.ssh"
+chmod 700 "$USER_HOME/.ssh"
+chmod 600 "$USER_HOME/.ssh/authorized_keys"
+echo "Authorized keys set for user $SSH_USERNAME"
 
 # Configure npm prefix for user (on persistent volume)
 NPM_GLOBAL="$USER_HOME/.npm-global"
