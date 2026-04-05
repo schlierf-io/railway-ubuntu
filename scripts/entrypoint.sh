@@ -37,8 +37,9 @@ else
     echo "User $SSH_USERNAME created and added to sudo group"
 fi
 
-# Ensure home directory exists (volume may be empty on first boot)
+# Ensure home directory exists and has skel files
 mkdir -p "$USER_HOME"
+cp -n /etc/skel/.bashrc /etc/skel/.profile /etc/skel/.bash_logout "$USER_HOME/" 2>/dev/null || true
 chown "$SSH_USERNAME:$SSH_USERNAME" "$USER_HOME"
 
 # Configure SSH authorized keys
