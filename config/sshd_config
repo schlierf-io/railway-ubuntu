@@ -8,7 +8,7 @@ AuthorizedKeysFile .ssh/authorized_keys
 PermitEmptyPasswords no
 X11Forwarding yes
 X11UseLocalhost no
-MaxAuthTries 3
+MaxAuthTries 6
 LoginGraceTime 30
 
 # Session

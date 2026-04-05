@@ -30,10 +30,14 @@ USER_HOME="/data/$SSH_USERNAME"
 # Create the user if it doesn't exist
 if id "$SSH_USERNAME" &>/dev/null; then
     echo "User $SSH_USERNAME already exists"
+    # Ensure account is unlocked for SSH pubkey auth
+    usermod -p '*' "$SSH_USERNAME"
 else
     mkdir -p /data
     useradd -ms /bin/bash -d "$USER_HOME" "$SSH_USERNAME"
     usermod -aG sudo "$SSH_USERNAME"
+    # Unlock account for SSH pubkey auth (locked accounts are rejected by sshd)
+    usermod -p '*' "$SSH_USERNAME"
     echo "User $SSH_USERNAME created and added to sudo group"
 fi
 
