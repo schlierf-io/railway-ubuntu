@@ -41,6 +41,7 @@ fi
 mkdir -p "$USER_HOME"
 cp -n /etc/skel/.bashrc /etc/skel/.profile /etc/skel/.bash_logout "$USER_HOME/" 2>/dev/null || true
 chown "$SSH_USERNAME:$SSH_USERNAME" "$USER_HOME"
+chmod 755 "$USER_HOME"
 
 # Configure SSH authorized keys
 mkdir -p "$USER_HOME/.ssh"
