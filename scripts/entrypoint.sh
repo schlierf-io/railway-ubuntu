@@ -65,8 +65,20 @@ su - "$SSH_USERNAME" -c "npm config set prefix '$NPM_GLOBAL'"
 BASHRC="$USER_HOME/.bashrc"
 if ! grep -q '.npm-global/bin' "$BASHRC" 2>/dev/null; then
     echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> "$BASHRC"
-    chown "$SSH_USERNAME:$SSH_USERNAME" "$BASHRC"
 fi
+
+# Pass through API keys from Railway env vars
+if [ -n "$GEMINI_API_KEY" ]; then
+    sed -i '/^export GEMINI_API_KEY=/d' "$BASHRC"
+    echo "export GEMINI_API_KEY='$GEMINI_API_KEY'" >> "$BASHRC"
+fi
+
+if [ -n "$GH_ENTERPRISE_TOKEN" ]; then
+    sed -i '/^export GH_ENTERPRISE_TOKEN=/d' "$BASHRC"
+    echo "export GH_ENTERPRISE_TOKEN='$GH_ENTERPRISE_TOKEN'" >> "$BASHRC"
+fi
+
+chown "$SSH_USERNAME:$SSH_USERNAME" "$BASHRC"
 
 # Ensure SSH host keys exist
 ssh-keygen -A
