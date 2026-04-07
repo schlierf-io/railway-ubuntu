@@ -14,7 +14,7 @@ RUN apt-get update && \
 RUN apt-get update && apt-get install -y \
     openssh-server sudo supervisor cron gettext-base \
     iproute2 iputils-ping nmap netcat-openbsd traceroute dnsutils mtr telnet \
-    git curl wget vim htop tmux build-essential xauth chromium-browser ssh-askpass \
+    git curl wget vim htop tmux build-essential xauth chromium-browser ssh-askpass sox \
     python3 python3-pip python3-venv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
